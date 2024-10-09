@@ -1,0 +1,4 @@
+C:/Users/user/CLionProjects/myfish/cmake-build-debug/CMakeFiles/myfish.dir
+C:/Users/user/CLionProjects/myfish/cmake-build-debug/CMakeFiles/my_test_fish.dir
+C:/Users/user/CLionProjects/myfish/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/user/CLionProjects/myfish/cmake-build-debug/CMakeFiles/rebuild_cache.dir
