@@ -155,6 +155,7 @@ int main(){
         std::cout << "Wrong number of players" << std::endl;
     */
 
+    //Figures placement
     for (int i = 0; i < numOfFigures; i++)
         for (int j = 0; j < numOfPlayers; j++){
             //Figure f;
@@ -193,80 +194,81 @@ int main(){
         }
     showGrid();
 
-    int scores[numOfPlayers];
+    int scores[numOfPlayers] = {0};
 
     //One game round
-    for (int i = 0; i < numOfPlayers; i++){
-        std::cout << "Player " << i + 1 << "; If you want to pass your turn enter P, otherwise enter anything else" << std::endl;
-        char answer;
-        std::cin >> answer;
-        if (answer == 'P'){
-            std::cout << "Player " << i + 1 << " passes his/her turn" << std::endl;
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n'); //если пользователь вводит строку, то считывается только первый чар, а остально находится в буфере => надо очистить
-            continue;
-        }
-        else
-        {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n'); //если пользователь вводит строку, то считывается только первый чар, а остально находится в буфере => надо очистить
-            std::cout << "Select a figure to replace (a hex from which you want to replace your figure)" << std::endl;
-            int currentPosition = getNumber();
-            bool flag1 = true;
-            while (flag1 == true){
-                while (currentPosition <= 0 || currentPosition > 18){
-                    std::cout << "Wrong input" << std::endl;
-                    currentPosition = getNumber();
-                }
-                if(hexes[currentPosition - 1].getOwner() == i + 1){
-                    std::cout << "Yep, this hex is occupied by your penguin" << std::endl;
-                    flag1 = false;
+    for (int j = 0; j < 2; j++){
+        std::cout << "Round" << j << std::endl;
+        for (int i = 0; i < numOfPlayers; i++){
+            std::cout << "Player " << i + 1 << "; If you want to pass your turn enter P, otherwise enter anything else" << std::endl;
+            char answer;
+            std::cin >> answer;
+            if (answer == 'P'){
+                std::cout << "Player " << i + 1 << " passes his/her turn" << std::endl;
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n'); //если пользователь вводит строку, то считывается только первый чар, а остально находится в буфере => надо очистить
+                continue;
+            }
+            else{
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n'); //если пользователь вводит строку, то считывается только первый чар, а остально находится в буфере => надо очистить
+                std::cout << "Select a figure to replace (a hex from which you want to replace your figure)" << std::endl;
+                int currentPosition = getNumber();
+                bool flag1 = true;
+                while (flag1 == true){
+                    while (currentPosition <= 0 || currentPosition > 18){
+                        std::cout << "Wrong input" << std::endl;
+                        currentPosition = getNumber();
+                    }
+                    if(hexes[currentPosition - 1].getOwner() == i + 1){
+                        std::cout << "Yep, this hex is occupied by your penguin" << std::endl;
+                        flag1 = false;
 
-                    std::cout << "Where do you want to place your penguin? (Enter the Hex number)" << std::endl;
-                    int dest = getNumber();
-                    bool flag2 = true;
-                    while (flag2 == true){
-                        while (dest <= 0 || dest > 18){
-                            std::cout << "Wrong input" << std::endl;
-                            dest = getNumber();
-                        }
+                        std::cout << "Where do you want to place your penguin? (Enter the Hex number)" << std::endl;
+                        int dest = getNumber();
+                        bool flag2 = true;
+                        while (flag2 == true){
+                            while (dest <= 0 || dest > 18){
+                                std::cout << "Wrong input" << std::endl;
+                                dest = getNumber();
+                            }
 
-                        if(hexes[dest - 1].getIfExists() == true){
-                            if(hexes[dest - 1].getIfIsFree() == true){
-                                std::cout << "Yep, this hex is free, so the movement is possible" << std::endl;
+                            if(hexes[dest - 1].getIfExists() == true){
+                                if(hexes[dest - 1].getIfIsFree() == true){
+                                std::cout << "Yep, this hex is free, so the movement is possible" << std::endl; // not really - need to check 1) DIRECTION, 2) the existance of NON-EXISTENT hexes a;ong the way, 3) the existance of OCCUPIED hexes along the way
                                 hexes[currentPosition - 1].setOwner(0);
                                 hexes[currentPosition - 1].setIfIsFree(true);
                                 hexes[currentPosition - 1].setIfExists(false);
-                                scores[i] = hexes[currentPosition - 1].getScore();
+                                scores[i] += hexes[currentPosition - 1].getScore();
                                 hexes[dest - 1].setIfIsFree(false);
                                 hexes[dest - 1].setOwner(i+1);
                                 flag2 = false;
                                 std::cout << "Player " << i + 1 << " moves his/her figure from " << currentPosition << " to "
                                           << dest << std::endl;
                             }
-                            else{
-                                std::cout << "You've chosen a hex, which is already occupied, try another one " << std::endl;
-                                dest = getNumber();
+                                else{
+                                    std::cout << "You've chosen a hex, which is already occupied, try another one " << std::endl;
+                                    dest = getNumber();
+                                }
                             }
-                        }
-                        else{
+                            else{
                             std::cout << "You've chosen a hex, which doesn't exists anymore, try another one " << std::endl;
                             dest = getNumber();
+                            }
                         }
                     }
-                }
-                else{
-                    std::cout << "This hex is NOT occupied by your penguin, try another one" << std::endl;
-                    currentPosition = getNumber();
+                    else{
+                        std::cout << "This hex is NOT occupied by your penguin, try another one" << std::endl;
+                        currentPosition = getNumber();
+                    }
                 }
             }
         }
+        std::cout << "Scores: ";
+        for (int score : scores){
+            std::cout << score << " ";
+        }
+        std::cout << std::endl;
+        showGrid();
     }
 
-    std::cout << "Scores: ";
-    for (int score : scores){
-        std::cout << score << " ";
-    }
-    std::cout << std::endl;
-
-    showGrid();
     return 0;
 }
