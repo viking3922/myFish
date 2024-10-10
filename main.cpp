@@ -90,6 +90,15 @@ int scoreAssignment(){
     return point;
 }
 
+//SHOW GRID FUCTION
+void showGrid(){
+    std::cout << "Hex num" << " Coords" << " Points" << " Exists?" << " Is free?" << " Owner" <<std::endl;
+    for (int i = 0; i < hexes.size(); i++){
+        std::cout << i + 1 << "\t" <<hexes[i];
+    }
+}
+
+
 int main(){
     srand(time(nullptr));
     //Grid generation
@@ -121,10 +130,11 @@ int main(){
     }
     std::cout<<hexes.size()<<std::endl;
 
-    std::cout << "Hex num" << " Coords" << " Points" << " Exists?" << " Is free?" << " Owner" <<std::endl;
+    showGrid();
+    /*std::cout << "Hex num" << " Coords" << " Points" << " Exists?" << " Is free?" << " Owner" <<std::endl;
     for (int i = 0; i < hexes.size(); i++){
-        std::cout << i << "\t" <<hexes[i];
-    }
+        std::cout << i + 1 << "\t" <<hexes[i];
+    }*/
 
     /*for (auto hex : hexes){
         std::cout << hex;
@@ -149,22 +159,23 @@ int main(){
         for (int j = 0; j < numOfPlayers; j++){
             //Figure f;
             int destination = 300; //doesn't exist
-            std::cout << "Where do you want to place your penguin? (Enter the Hex number)" << std::endl;
+            std::cout << "Player" << j + 1 << ", where do you want to place your " << i + 1 << " penguin? (Enter the Hex number)" << std::endl;
             destination = getNumber();
             //std::cin >> destination;
             bool flag = true;
             while (flag == true){
-                while (destination < 0 || destination >= 18){
+                while (destination <= 0 || destination > 18){
                     std::cout << "Wrong input" << std::endl;
                     destination = getNumber();
                     //std::cin >> destination;
                 }
-                if(hexes[destination].getIfIsFree() == true)
+
+                if(hexes[destination - 1].getIfIsFree() == true)
                 {
-                    if (hexes[destination].getScore() == 1){
-                        std::cout << "Ok, your figure is placed on " << destination << " hex" << std::endl;
-                        hexes[destination].setIfIsFree(false);
-                        hexes[destination].setOwner(j+1);
+                    if (hexes[destination - 1].getScore() == 1){
+                        std::cout << "Ok, player" << j + 1 << " penguin is placed on " << destination << " hex" << std::endl;
+                        hexes[destination - 1].setIfIsFree(false);
+                        hexes[destination - 1].setOwner(j+1);
                         //f.setX(hexes[destination].getX());
                         //f.setY(hexes[destination].getY());
                         flag = false;
@@ -172,21 +183,90 @@ int main(){
                     else{
                         std::cout << "You've chosen a hex with more than ONE point, try another one " << std::endl;
                         destination = getNumber();
-                        //std::cin >> destination;
                     }
                 }
                 else{
-                    std::cout << "You've chosen a hex which is already occupied, try another one " << std::endl;
+                    std::cout << "You've chosen a hex which is already occupied, try another one" << std::endl;
                     destination = getNumber();
-                    //std::cin >> destination;
                 }
             }
         }
+    showGrid();
 
-    std::cout << "Hex num" << " Coords" << " Points" << " Exists?" << " Is free?" << " Owner" <<std::endl;
-    for (int i = 0; i < hexes.size(); i++){
-        std::cout << i << "\t" <<hexes[i];
+    int scores[numOfPlayers];
+
+    //One game round
+    for (int i = 0; i < numOfPlayers; i++){
+        std::cout << "Player " << i + 1 << "; If you want to pass your turn enter P, otherwise enter anything else" << std::endl;
+        char answer;
+        std::cin >> answer;
+        if (answer == 'P'){
+            std::cout << "Player " << i + 1 << " passes his/her turn" << std::endl;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n'); //если пользователь вводит строку, то считывается только первый чар, а остально находится в буфере => надо очистить
+            continue;
+        }
+        else
+        {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n'); //если пользователь вводит строку, то считывается только первый чар, а остально находится в буфере => надо очистить
+            std::cout << "Select a figure to replace (a hex from which you want to replace your figure)" << std::endl;
+            int currentPosition = getNumber();
+            bool flag1 = true;
+            while (flag1 == true){
+                while (currentPosition <= 0 || currentPosition > 18){
+                    std::cout << "Wrong input" << std::endl;
+                    currentPosition = getNumber();
+                }
+                if(hexes[currentPosition - 1].getOwner() == i + 1){
+                    std::cout << "Yep, this hex is occupied by your penguin" << std::endl;
+                    flag1 = false;
+
+                    std::cout << "Where do you want to place your penguin? (Enter the Hex number)" << std::endl;
+                    int dest = getNumber();
+                    bool flag2 = true;
+                    while (flag2 == true){
+                        while (dest <= 0 || dest > 18){
+                            std::cout << "Wrong input" << std::endl;
+                            dest = getNumber();
+                        }
+
+                        if(hexes[dest - 1].getIfExists() == true){
+                            if(hexes[dest - 1].getIfIsFree() == true){
+                                std::cout << "Yep, this hex is free, so the movement is possible" << std::endl;
+                                hexes[currentPosition - 1].setOwner(0);
+                                hexes[currentPosition - 1].setIfIsFree(true);
+                                hexes[currentPosition - 1].setIfExists(false);
+                                scores[i] = hexes[currentPosition - 1].getScore();
+                                hexes[dest - 1].setIfIsFree(false);
+                                hexes[dest - 1].setOwner(i+1);
+                                flag2 = false;
+                                std::cout << "Player " << i + 1 << " moves his/her figure from " << currentPosition << " to "
+                                          << dest << std::endl;
+                            }
+                            else{
+                                std::cout << "You've chosen a hex, which is already occupied, try another one " << std::endl;
+                                dest = getNumber();
+                            }
+                        }
+                        else{
+                            std::cout << "You've chosen a hex, which doesn't exists anymore, try another one " << std::endl;
+                            dest = getNumber();
+                        }
+                    }
+                }
+                else{
+                    std::cout << "This hex is NOT occupied by your penguin, try another one" << std::endl;
+                    currentPosition = getNumber();
+                }
+            }
+        }
     }
 
+    std::cout << "Scores: ";
+    for (int score : scores){
+        std::cout << score << " ";
+    }
+    std::cout << std::endl;
+
+    showGrid();
     return 0;
 }

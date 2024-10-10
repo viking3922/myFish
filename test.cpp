@@ -20,7 +20,23 @@ int getNumber(){
 }
 
 int main(){
-    std::cout << getNumber() << std::endl;
-    std::cout << getNumber();
+    for (int i = 1; i <= 4; i++){
+        std::cout << "If you want to pass enter P" << std::endl;
+        char answer;
+        std::cin >> answer;
+        if (answer == 'p'){
+            std::cout << "Player " << i << " passes his/her turn" << std::endl;
+            continue;
+        }
+        else{
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n'); //если пользователь вводит строку, то считывается только первый чар, а остально находится в буфере => надо очистить
+            std::cout << "Select a figure to replace (a hex from which you want to replace your figure)" << std::endl;
+            int currentPosition = getNumber();
+            std::cout << "Where do you want to place your penguin? (Enter the Hex number)" << std::endl;
+            int destination = getNumber();
+            std::cout << "Player " << i << " moves his/her figure from " << currentPosition << " to "
+                      << destination << std::endl;
+        }
+    }
     return 0;
 }
