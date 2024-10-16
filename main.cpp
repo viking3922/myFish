@@ -7,11 +7,12 @@
 #include "Hex.h"
 #include "Figure.h"
 
-int numberOfOneScoredHexes = 10;
-int numberOfTwoScoredHexes = 5;
-int numberOfThreeScoredHexes = 3;
+const int numberOfOneScoredHexes = 30;
+const int numberOfTwoScoredHexes = 20;
+const int numberOfThreeScoredHexes = 10;
 
-std::vector<Hex> hexes;//later rewrite as array
+//std::vector<Hex> hexes;//later rewrite as array
+Hex hexes[(numberOfOneScoredHexes+numberOfTwoScoredHexes+numberOfThreeScoredHexes)];
 
 //This function handles user input errors
 int getNumber(){
@@ -90,10 +91,13 @@ int scoreAssignment(){
     return point;
 }
 
-//SHOW GRID FUCTION
+//SHOW GRID FUNCTION
 void showGrid(){
     std::cout << "Hex num" << " Coords" << " Points" << " Exists?" << " Is free?" << " Owner" <<std::endl;
-    for (int i = 0; i < hexes.size(); i++){
+    /*for (int i = 0; i < hexes.size(); i++){
+        std::cout << i + 1 << "\t" <<hexes[i];
+    }*/
+    for (int i = 0; i < std::size(hexes); i++){
         std::cout << i + 1 << "\t" <<hexes[i];
     }
 }
@@ -107,28 +111,37 @@ int main(){
     grid.emplace(3,numberOfThreeScoredHexes);
 
     //std::vector<Hex> hexes;//later rewrite as array
-    for (int i = 0; i <= 6; i++){
+    Hex* ptr = hexes;//указывает на первый элемент массива
+
+    int rows = 14;
+    int cols = 7;
+    for (int i = 0; i <= rows; i++){
         Hex h;
         h.setX(i);
-        for (int j = 0; j <= 4; j++){
+        for (int j = 0; j <= cols; j++){
             if(i % 2 == 0 && j % 2 == 0){
                 h.setY(j);
                 h.setScore(scoreAssignment());
-                hexes.push_back(h);
+                //hexes.push_back(h);
+                *ptr = h;
+                ptr++;
                 //std::cout << h.getX() << "," << h.getY() <<"\t";
             }
             else{
                 if(i % 2 != 0 && j % 2 != 0){
                     h.setY(j);
                     h.setScore(scoreAssignment());
-                    hexes.push_back(h);
+                    //hexes.push_back(h);
+                    *ptr = h;
+                    ptr++;
                     //std::cout << h.getX() << "," << h.getY() <<"\t";
                 }
             }
         }
         //std::cout << std::endl;
     }
-    std::cout<<hexes.size()<<std::endl;
+    //std::cout<<hexes.size()<<std::endl;
+    std::cout<<std::size(hexes)<<std::endl;
 
     showGrid();
     /*std::cout << "Hex num" << " Coords" << " Points" << " Exists?" << " Is free?" << " Owner" <<std::endl;
@@ -165,7 +178,7 @@ int main(){
             //std::cin >> destination;
             bool flag = true;
             while (flag == true){
-                while (destination <= 0 || destination > 18){
+                while (destination <= 0 || destination > std::size(hexes)){
                     std::cout << "Wrong input" << std::endl;
                     destination = getNumber();
                     //std::cin >> destination;
@@ -214,7 +227,7 @@ int main(){
                 int currentPosition = getNumber();
                 bool flag1 = true;
                 while (flag1 == true){
-                    while (currentPosition <= 0 || currentPosition > 18){
+                    while (currentPosition <= 0 || currentPosition > std::size(hexes)){
                         std::cout << "Wrong input" << std::endl;
                         currentPosition = getNumber();
                     }
@@ -226,14 +239,14 @@ int main(){
                         int dest = getNumber();
                         bool flag2 = true;
                         while (flag2 == true){
-                            while (dest <= 0 || dest > 18){
+                            while (dest <= 0 || dest > std::size(hexes)){
                                 std::cout << "Wrong input" << std::endl;
                                 dest = getNumber();
                             }
 
                             if(hexes[dest - 1].getIfExists() == true){
                                 if(hexes[dest - 1].getIfIsFree() == true){
-                                std::cout << "Yep, this hex is free, so the movement is possible" << std::endl; // not really - need to check 1) DIRECTION, 2) the existance of NON-EXISTENT hexes a;ong the way, 3) the existance of OCCUPIED hexes along the way
+                                std::cout << "Yep, this hex is free, so the movement is possible" << std::endl; // not really - before (?) you need to check 1) DIRECTION, 2) the existance of NON-EXISTENT hexes a;ong the way, 3) the existance of OCCUPIED hexes along the way
                                 hexes[currentPosition - 1].setOwner(0);
                                 hexes[currentPosition - 1].setIfIsFree(true);
                                 hexes[currentPosition - 1].setIfExists(false);

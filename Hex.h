@@ -9,7 +9,7 @@
 class Hex {
 public:
     Hex()=default;
-    //Hex(int x, int y, int score);
+    Hex(int x, int y, int score, bool existance, bool isFree, int owner); //used only for testing;
     //Getters
     int getX() const;
     int getY() const;

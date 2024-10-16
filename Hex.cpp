@@ -65,3 +65,14 @@ int Hex::getScore() const{
     setScore(score);
     std::cout << "Hex is constructed" << std::endl;
 }*/
+
+Hex::Hex(int x, int y, int score, bool existance, bool isFree, int owner)
+{
+    setX(x);
+    setY(y);
+    setScore(score);
+    setIfExists(existance);
+    setIfIsFree(isFree);
+    setOwner(owner);
+}
+
