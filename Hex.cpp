@@ -13,16 +13,20 @@ int Hex::getY() const{
     return y;
 }
 
-bool Hex::getIfExists() const{
+/*bool Hex::getIfExists() const{
     return existance;
-}
+}*/
 
-bool Hex::getIfIsFree() const{
+/*bool Hex::getIfIsFree() const{
     return isFree;
-}
+}*/
 
 int Hex::getOwner() const{
     return owner;
+}
+
+int Hex::getScore() const{
+    return score;
 }
 
 void Hex::setX(int x){
@@ -37,26 +41,28 @@ void Hex::setScore(int score){
     this->score = score;
 }
 
-void Hex::setIfExists(bool existance){
+/*void Hex::setIfExists(bool existance){
     this->existance = existance;
-}
+}*/
 
-void Hex::setIfIsFree(bool isFree){
+/*void Hex::setIfIsFree(bool isFree){
     this->isFree = isFree;
-}
+}*/
 
 void Hex::setOwner(int owner){
     this->owner = owner;
 }
 
-std::ostream& operator<<(std::ostream& stream, const Hex& hex){
+/*std::ostream& operator<<(std::ostream& stream, const Hex& hex){
     stream << "[" << hex.getX() << "," << hex.getY() << "]" << "\t" << hex.getScore() << "\t"
            << hex.getIfExists() <<  "\t" << hex.getIfIsFree() <<  "\t" << hex.getOwner() << std::endl;
     return stream;
-}
+}*/
 
-int Hex::getScore() const{
-    return score;
+std::ostream& operator<<(std::ostream& stream, const Hex& hex){
+    stream << "[" << hex.getX() << "," << hex.getY() << "]" << "\t" << hex.getScore() << "\t"
+           <<  hex.getOwner() << std::endl;
+    return stream;
 }
 
 /*Hex::Hex(int x, int y, int score){
@@ -66,13 +72,11 @@ int Hex::getScore() const{
     std::cout << "Hex is constructed" << std::endl;
 }*/
 
-Hex::Hex(int x, int y, int score, bool existance, bool isFree, int owner)
+Hex::Hex(int x, int y, int score, int owner)
 {
     setX(x);
     setY(y);
     setScore(score);
-    setIfExists(existance);
-    setIfIsFree(isFree);
     setOwner(owner);
 }
 

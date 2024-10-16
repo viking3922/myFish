@@ -11,7 +11,6 @@ const int numberOfOneScoredHexes = 30;
 const int numberOfTwoScoredHexes = 20;
 const int numberOfThreeScoredHexes = 10;
 
-//std::vector<Hex> hexes;//later rewrite as array
 Hex hexes[(numberOfOneScoredHexes+numberOfTwoScoredHexes+numberOfThreeScoredHexes)];
 
 //This function handles user input errors
@@ -93,10 +92,7 @@ int scoreAssignment(){
 
 //SHOW GRID FUNCTION
 void showGrid(){
-    std::cout << "Hex num" << " Coords" << " Points" << " Exists?" << " Is free?" << " Owner" <<std::endl;
-    /*for (int i = 0; i < hexes.size(); i++){
-        std::cout << i + 1 << "\t" <<hexes[i];
-    }*/
+    std::cout << "Hex num" << " Coords" << " Points" << " Owner" <<std::endl;
     for (int i = 0; i < std::size(hexes); i++){
         std::cout << i + 1 << "\t" <<hexes[i];
     }
@@ -144,14 +140,6 @@ int main(){
     std::cout<<std::size(hexes)<<std::endl;
 
     showGrid();
-    /*std::cout << "Hex num" << " Coords" << " Points" << " Exists?" << " Is free?" << " Owner" <<std::endl;
-    for (int i = 0; i < hexes.size(); i++){
-        std::cout << i + 1 << "\t" <<hexes[i];
-    }*/
-
-    /*for (auto hex : hexes){
-        std::cout << hex;
-    }*/
 
     //Figures placement
     int numOfPlayers = 2;
@@ -184,11 +172,10 @@ int main(){
                     //std::cin >> destination;
                 }
 
-                if(hexes[destination - 1].getIfIsFree() == true)
+                if(hexes[destination - 1].getOwner() == 0)
                 {
                     if (hexes[destination - 1].getScore() == 1){
                         std::cout << "Ok, player" << j + 1 << " penguin is placed on " << destination << " hex" << std::endl;
-                        hexes[destination - 1].setIfIsFree(false);
                         hexes[destination - 1].setOwner(j+1);
                         //f.setX(hexes[destination].getX());
                         //f.setY(hexes[destination].getY());
@@ -209,7 +196,25 @@ int main(){
 
     int scores[numOfPlayers] = {0};
 
-    //One game round
+    //проверка того, что хотя бы один игрок ещё имеет ходы
+    std::cout << "Occupied hexes: ";
+    int totalNumOfFigures = numOfPlayers*numOfFigures;
+    for (int i = 0; i < std::size(hexes); i++){
+        if (totalNumOfFigures>0){
+            if(hexes[i].getOwner() != 0){
+                totalNumOfFigures-=1;
+                std::cout << i + 1 << " ";//тут надо не выводить его номер, а запускать проверку на вшивость
+            }
+            else
+                continue;
+        }
+        else
+            break;
+    }
+
+    std::cout << std::endl;
+
+    /*
     for (int j = 0; j < 2; j++){
         std::cout << "Round" << j << std::endl;
         for (int i = 0; i < numOfPlayers; i++){
@@ -244,17 +249,15 @@ int main(){
                                 dest = getNumber();
                             }
 
-                            if(hexes[dest - 1].getIfExists() == true){
-                                if(hexes[dest - 1].getIfIsFree() == true){
-                                std::cout << "Yep, this hex is free, so the movement is possible" << std::endl; // not really - before (?) you need to check 1) DIRECTION, 2) the existance of NON-EXISTENT hexes a;ong the way, 3) the existance of OCCUPIED hexes along the way
-                                hexes[currentPosition - 1].setOwner(0);
-                                hexes[currentPosition - 1].setIfIsFree(true);
-                                hexes[currentPosition - 1].setIfExists(false);
-                                scores[i] += hexes[currentPosition - 1].getScore();
-                                hexes[dest - 1].setIfIsFree(false);
-                                hexes[dest - 1].setOwner(i+1);
-                                flag2 = false;
-                                std::cout << "Player " << i + 1 << " moves his/her figure from " << currentPosition << " to "
+                            if(hexes[dest - 1].getScore() != 0){
+                                if(hexes[dest - 1].getOwner() == 0){
+                                    std::cout << "Yep, this hex is free, so the movement is possible" << std::endl; // not really - before (?) you need to check 1) DIRECTION, 2) the existance of NON-EXISTENT hexes a;ong the way, 3) the existance of OCCUPIED hexes along the way
+                                    scores[i] += hexes[currentPosition - 1].getScore();
+                                    hexes[currentPosition - 1].setOwner(0);
+                                    hexes[currentPosition - 1].setScore(0);
+                                    hexes[dest - 1].setOwner(i+1);
+                                    flag2 = false;
+                                    std::cout << "Player " << i + 1 << " moves his/her figure from " << currentPosition << " to "
                                           << dest << std::endl;
                             }
                                 else{
@@ -282,6 +285,7 @@ int main(){
         std::cout << std::endl;
         showGrid();
     }
+    */
 
     return 0;
 }

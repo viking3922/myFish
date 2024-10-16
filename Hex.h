@@ -9,26 +9,26 @@
 class Hex {
 public:
     Hex()=default;
-    Hex(int x, int y, int score, bool existance, bool isFree, int owner); //used only for testing;
+    Hex(int x, int y, int score, int owner); //used only for testing;
     //Getters
     int getX() const;
     int getY() const;
     int getScore() const;
-    bool getIfExists() const;
-    bool getIfIsFree() const;
+    //bool getIfExists() const;
+    //bool getIfIsFree() const;
     int getOwner() const;
     //Setters
     void setX(int x);
     void setY(int y);
     void setScore(int x);
-    void setIfExists(bool existance);
-    void setIfIsFree(bool isFree);
+    //void setIfExists(bool existance);
+    //void setIfIsFree(bool isFree);
     void setOwner(int owner);
 private:
     int x = 0;
     int y = 0;
-    bool existance = true;
-    bool isFree = true;
+    //bool existance = true;
+    //bool isFree = true;
     int score = 0;
     int owner = 0;
 };
