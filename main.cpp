@@ -98,6 +98,20 @@ void showGrid(){
     }
 }
 
+//функция поиска индекса хекса по его координатам
+int findIndexViaCoords(int x, int y){
+    int ind = 0;
+    if (y==0 || y==1)
+        ind = x * 4;
+    else if (y==2 || y==3)
+        ind = x*4 + 1;
+    else if (y==4 || y==5)
+        ind = x*4 + 2;
+    else
+        ind = x*4 + 3;
+    return ind;
+}
+
 
 int main(){
     srand(time(nullptr));
@@ -197,13 +211,92 @@ int main(){
     int scores[numOfPlayers] = {0};
 
     //проверка того, что хотя бы один игрок ещё имеет ходы
-    std::cout << "Occupied hexes: ";
+    std::cout << "Checking neighbours of hex ";
+
     int totalNumOfFigures = numOfPlayers*numOfFigures;
     for (int i = 0; i < std::size(hexes); i++){
         if (totalNumOfFigures>0){
             if(hexes[i].getOwner() != 0){
                 totalNumOfFigures-=1;
-                std::cout << i + 1 << " ";//тут надо не выводить его номер, а запускать проверку на вшивость
+                std::cout << i + 1 << std::endl; //выводим номер занятой льдинки, которую будем проверять
+                //check wether x is even
+                if(hexes[i].getX() % 2 == 0){
+                    //check northern neighbour
+                    i = i - 8; //перемещаемся на северного соседа
+                    if (i >= 0 && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (northern neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                    //check north-west neighbour of occupied hex
+                    i = i + 4;
+                    if(i < std::size(hexes) && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (north-west neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                    //check south-west neighbour of occupied hex
+                    i = i + 8;
+                    if(i < std::size(hexes) && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (south-west neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                    //check southern neighbour of occupied hex
+                    i = i + 4;
+                    if(i < std::size(hexes) && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (southern neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                    //check south-east neighbour of occupied hex
+                    i=i-5;
+                    if (i >= 0 && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (south-east neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                    //check north-east neighbour of occupied hex
+                    i=i-8;
+                    if (i >= 0 && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (north-east neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                }
+                //for uneven numbers
+                else{
+                //check northern neighbour
+                    i = i - 8; //перемещаемся на северного соседа
+                    if (i >= 0 && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (northern neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                    //check north-west neighbour of occupied hex
+                    i = i + 5;
+                    if(i < std::size(hexes) && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (north-west neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                    //check south-west neighbour of occupied hex
+                    i = i + 8;
+                    if(i < std::size(hexes) && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (south-west neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                    //check southern neighbour of occupied hex
+                    i = i + 3;
+                    if(i < std::size(hexes) && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (southern neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                    //check south-east neighbour of occupied hex
+                    i=i-4;
+                    if (i >= 0 && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (south-east neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                    //check north-east neighbour of occupied hex
+                    i=i-8;
+                    if (i >= 0 && (hexes[i].getOwner()==0 && hexes[i].getScore()!=0)){
+                        std::cout << "Hex " << i + 1 << " (north-east neighbour) exists and is free" << std::endl;
+                        break;
+                    }
+                }
             }
             else
                 continue;
@@ -212,7 +305,6 @@ int main(){
             break;
     }
 
-    std::cout << std::endl;
 
     /*
     for (int j = 0; j < 2; j++){

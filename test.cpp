@@ -8,26 +8,28 @@ const int numberOfTwoScoredHexes = 20;
 const int numberOfThreeScoredHexes = 10;
 
 Hex hexes[(numberOfOneScoredHexes+numberOfTwoScoredHexes+numberOfThreeScoredHexes)];
+//функция поиска индекса хекса по его координатам
+int findIndexViaCoords(int x, int y){
+    int ind = 0;
+    if (y==0 || y==1)
+        ind = x * 4;
+    else if (y==2 || y==3)
+        ind = x*4 + 1;
+    else if (y==4 || y==5)
+        ind = x*4 + 2;
+    else
+        ind = x*4 + 3;
+    return ind;
+}
 
 int main(){
-    int x1 = 6;
-    int y1 = 4;
-    int x2 = 9;
-    int y2 = 7;
-
-    Hex h11={3,5,0,0};//не существует, свободна
-    Hex h18={4,4,0,0};//не существует, свободна
-    Hex h19={4,6,}
-    Hex h26={6,4,3,1};//существует, занята первым игроком
-
-    Hex h22={5,5,2,2};//существует, занята вторым
+    std::cout << findIndexViaCoords(0,0) << " " << findIndexViaCoords(0,4) << " " << findIndexViaCoords(1,7)
+              << " " << findIndexViaCoords(5,3) << " " << findIndexViaCoords(6,2) << " " << findIndexViaCoords(7,5)
+              << " " << findIndexViaCoords(12,6) << " " << findIndexViaCoords(13,1);
 
 
 
-
-
-    int xDifference;
-
+    /*int xDifference;
     if ((x1-x2)%2==0 && y1 == y2){
         xDifference=(x1-x2);
         if (xDifference > 0) {
@@ -59,9 +61,6 @@ int main(){
     else
         std::cout << "INAPPROPRIATE DIRECTION" << std::endl;
 
-    return 0;
-
-
-
+    */
     return 0;
 }
