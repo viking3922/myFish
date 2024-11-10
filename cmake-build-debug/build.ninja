@@ -61,18 +61,6 @@ build CMakeFiles/myfish.dir/Hex.cpp.obj: CXX_COMPILER__myfish_unscanned_Debug C$
   OBJECT_DIR = CMakeFiles\myfish.dir
   OBJECT_FILE_DIR = CMakeFiles\myfish.dir
 
-build CMakeFiles/myfish.dir/Player.cpp.obj: CXX_COMPILER__myfish_unscanned_Debug C$:/Users/user/CLionProjects/myfish/Player.cpp || cmake_object_order_depends_target_myfish
-  DEP_FILE = CMakeFiles\myfish.dir\Player.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\myfish.dir
-  OBJECT_FILE_DIR = CMakeFiles\myfish.dir
-
-build CMakeFiles/myfish.dir/Figure.cpp.obj: CXX_COMPILER__myfish_unscanned_Debug C$:/Users/user/CLionProjects/myfish/Figure.cpp || cmake_object_order_depends_target_myfish
-  DEP_FILE = CMakeFiles\myfish.dir\Figure.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\myfish.dir
-  OBJECT_FILE_DIR = CMakeFiles\myfish.dir
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target myfish
@@ -81,7 +69,7 @@ build CMakeFiles/myfish.dir/Figure.cpp.obj: CXX_COMPILER__myfish_unscanned_Debug
 #############################################
 # Link the executable myfish.exe
 
-build myfish.exe: CXX_EXECUTABLE_LINKER__myfish_Debug CMakeFiles/myfish.dir/main.cpp.obj CMakeFiles/myfish.dir/Hex.cpp.obj CMakeFiles/myfish.dir/Player.cpp.obj CMakeFiles/myfish.dir/Figure.cpp.obj
+build myfish.exe: CXX_EXECUTABLE_LINKER__myfish_Debug CMakeFiles/myfish.dir/main.cpp.obj CMakeFiles/myfish.dir/Hex.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\myfish.dir

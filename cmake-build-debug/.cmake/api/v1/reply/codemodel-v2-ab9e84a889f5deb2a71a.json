@@ -41,14 +41,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "my_test_fish::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-my_test_fish-Debug-829a6f773b2f3db29042.json",
+					"jsonFile" : "target-my_test_fish-Debug-f6fe73c0e389c16cbada.json",
 					"name" : "my_test_fish",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "myfish::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-myfish-Debug-78bcb9ba83ae574a6d2a.json",
+					"jsonFile" : "target-myfish-Debug-edcde686cb49ce8cad73.json",
 					"name" : "myfish",
 					"projectIndex" : 0
 				}

@@ -6,10 +6,6 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(myfish main.cpp
         Hex.cpp
         Hex.h
-        Player.cpp
-        Player.h
-        Figure.cpp
-        Figure.h
 )
 
 add_executable(my_test_fish test.cpp

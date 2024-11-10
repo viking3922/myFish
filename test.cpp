@@ -145,6 +145,23 @@ bool anyNeighbours(int hexIndex){
     return neighbourFound;
 }
 
+bool gameOver(int totalNumOfFigures){
+    bool gOver = true;
+    for (int i = 0; i < std::size(hexes); i++){
+        if(totalNumOfFigures>0){
+            if(hexes[i].getOwner()!=0){
+                std::cout << "Checking neighbours of Hex" << i << std::endl;
+                totalNumOfFigures-=1;
+                if(anyNeighbours(i)==true){
+                    gOver = false;
+                    break;
+                }
+            }
+        }
+    }
+    return gOver;
+}
+
 int whichDirection(int currentHexInd, int destHexInd){
     int xDifference = 0;
     int direction = 0;
@@ -189,8 +206,7 @@ int whichDirection(int currentHexInd, int destHexInd){
     return direction;
 }
 
-
-bool moveIsPossible(int numOfFigures, int player){
+bool playerCanMove(int numOfFigures, int player){
     bool anyMoves = false;
     for (int i = 0; i < std::size(hexes); i++){
         if (numOfFigures>0){
@@ -215,19 +231,9 @@ void showGrid(){
         std::cout << i + 1 << "\t" <<hexes[i];
     }
 }
-/*bool massive search
-bool endGame(bool myBools, int myBoolsSize){
-    bool end = true;
-    for (int i = 0; i < myBoolsSize; i++){
-        if(myBools[i]==true){
-            end = false;
-            break;
-        }
-    }
-    return end;
-}*/
 
-int main(){
+int main()
+{
     Hex* ptr = hexes;//указывает на первый элемент массива
     for (int i = 0; i <= rows; i++){
         Hex h;
@@ -250,21 +256,13 @@ int main(){
         }
 
     }
-    showGrid();
-    hexes[2].setOwner(1);
-    hexes[5].setOwner(2);
-    hexes[8].setOwner(1);
-    hexes[4].setOwner(2);
-    showGrid();
 
-    std::cout << whichDirection(7,1) << std::endl;
-    std::cout << whichDirection(7,2) << std::endl;
-    std::cout << whichDirection(7,17) << std::endl;
-    std::cout << whichDirection(7,19) << std::endl;
-    std::cout << whichDirection(7,12) << std::endl;
-    std::cout << whichDirection(7,0) << std::endl;
-    std::cout << whichDirection(7,15) << std::endl;
-
+    showGrid();
+    hexes[0].setOwner(1);
+    hexes[1].setOwner(2);
+    hexes[3].setOwner(1);
+    hexes[6].setOwner(2);
+    showGrid();
 
     int numOfPlayers = 2;
     int numOfFigures = 2;
@@ -273,40 +271,5 @@ int main(){
 
 
 
-
-
-    /*int xDifference;
-    if ((x1-x2)%2==0 && y1 == y2){
-        xDifference=(x1-x2);
-        if (xDifference > 0) {
-            std::cout << "figure moves to North" << std::endl;
-        }
-        else{
-            std::cout << "figure moves to South" << std::endl;
-        }
-    }
-    else if((x1-x2)==(y1-y2)*-1){
-        xDifference=x1-x2;
-        if (xDifference > 0) {
-            std::cout << "figure moves to North-west" << std::endl;
-        }
-        else{
-            std::cout << "figure moves to South-east" << std::endl;
-        }
-    }
-
-    else if((x1-x2)==(y1-y2)){
-        xDifference=x1-x2;
-        if (xDifference > 0) {
-            std::cout << "figure moves to South-east" << std::endl;
-        }
-        else{
-            std::cout << "figure moves to North-west" << std::endl;
-        }
-    }
-    else
-        std::cout << "INAPPROPRIATE DIRECTION" << std::endl;
-
-    */
     return 0;
 }
