@@ -559,47 +559,53 @@ int main(){
                     }
                     if(hexes[currentPosition - 1].getOwner() == i){
                         std::cout << "Yep, this hex is occupied by your penguin" << std::endl;
-                        flag1 = false;
 
-                        std::cout << "Where do you want to place your penguin? (Enter the Hex number)" << std::endl;
-                        int dest = getNumber();
-                        bool flag2 = true;
-                        while (flag2 == true){
-                            while (dest <= 0 || dest > std::size(hexes)){
-                                std::cout << "Wrong input" << std::endl;
-                                dest = getNumber();
-                            }
+                        if(anyNeighbours(currentPosition - 1) == true){
+                            flag1 = false;
+                            std::cout << "Where do you want to place your penguin? (Enter the Hex number)" << std::endl;
+                            int dest = getNumber();
+                            bool flag2 = true;
+                            while (flag2 == true){
+                                while (dest <= 0 || dest > std::size(hexes)){
+                                    std::cout << "Wrong input" << std::endl;
+                                    dest = getNumber();
+                                }
+                                if((hexes[dest - 1].getScore() != 0) && hexes[dest - 1].getOwner() == 0){
+                                    std::cout << "Yep, this hex exists and is free. But what about direction?"<< std::endl; // not really - before (?) you need to check 1) DIRECTION, 2) the existance of NON-EXISTENT hexes a;ong the way, 3) the existance of OCCUPIED hexes along the way
+                                    if(whichDirection(currentPosition - 1,dest - 1) != 0){
+                                        std::cout << "Yep, the direction is OK."<< std::endl;
+                                        if(noObstacles(whichDirection(currentPosition - 1,dest - 1), currentPosition - 1, dest - 1) == true){
+                                            scores[i-1] += hexes[currentPosition - 1].getScore();
+                                            hexes[currentPosition - 1].setOwner(0);
+                                            hexes[currentPosition - 1].setScore(0);
+                                            hexes[dest - 1].setOwner(i);
+                                            flag2 = false;
+                                            std::cout << "Player " << i << " moves his/her figure from " << currentPosition << " to "
+                                                    << dest << std::endl;
+                                        }
 
-                            if((hexes[dest - 1].getScore() != 0) && hexes[dest - 1].getOwner() == 0){
-                                std::cout << "Yep, this hex exists and is free. But what about direction?"<< std::endl; // not really - before (?) you need to check 1) DIRECTION, 2) the existance of NON-EXISTENT hexes a;ong the way, 3) the existance of OCCUPIED hexes along the way
-                                if(whichDirection(currentPosition - 1,dest - 1) != 0){
-                                    std::cout << "Yep, the direction is OK."<< std::endl;
-                                    if(noObstacles(whichDirection(currentPosition - 1,dest - 1), currentPosition - 1, dest - 1) == true){
-                                        scores[i-1] += hexes[currentPosition - 1].getScore();
-                                        hexes[currentPosition - 1].setOwner(0);
-                                        hexes[currentPosition - 1].setScore(0);
-                                        hexes[dest - 1].setOwner(i);
-                                        flag2 = false;
-                                        std::cout << "Player " << i << " moves his/her figure from " << currentPosition << " to "
-                                                  << dest << std::endl;
+                                        else{
+                                            std::cout << "There are occupied or non-existing hexes on the way" << std::endl;
+                                            dest = getNumber();
+                                        }
                                     }
                                     else{
-                                        std::cout << "There are occupied or non-existing hexes on the way" << std::endl;
+                                        std::cout << "You've chosen an inappropriate hex (no direction)." << std::endl;
                                         dest = getNumber();
                                     }
                                 }
-
                                 else{
-                                    std::cout << "You've chosen an inappropriate hex (no direction)." << std::endl;
+                                    std::cout << "You've chosen a hex, which doesn't exists anymore, or is occupied" << std::endl;
                                     dest = getNumber();
                                 }
                             }
-                            else{
-                            std::cout << "You've chosen a hex, which doesn't exists anymore, or is occupied" << std::endl;
-                            dest = getNumber();
-                            }
+                        }
+                        else{
+                            std::cout << "But there are no options for movement, so choose another hex" << std::endl;
+                            currentPosition = getNumber();
                         }
                     }
+
                     else{
                         std::cout << "This hex is NOT occupied by your penguin, try another one" << std::endl;
                         currentPosition = getNumber();
@@ -630,6 +636,10 @@ int main(){
                 totalNumOfPlayers-=1;
             }
         }
+    }
+
+    for (int score : scores){
+        std::cout << score << " ";
     }
 
     return 0;
